@@ -31,7 +31,7 @@ class AValShootMechanicCharacter : public ACharacter
 	UCameraComponent* FirstPersonCameraComponent;
 
 	/** Weapon */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Weapon, meta = (AllowPrivateAccess = "true"))
 	UTP_WeaponComponent* WeaponComponent;
 
 	/** MappingContext */

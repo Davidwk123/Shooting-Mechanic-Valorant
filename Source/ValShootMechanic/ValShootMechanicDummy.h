@@ -15,12 +15,24 @@ public:
 	// Sets default values for this actor's properties
 	AValShootMechanicDummy();
 
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	/** Dummy mesh */
+	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+	USkeletalMeshComponent* Mesh;
+
+	/** Trigger area for weapon drop off */
+	UPROPERTY(VisibleDefaultsOnly, Category = Trigger)
+	class USphereComponent* TriggerSphere;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+private:
+	/** Code for when something overlaps this component */
+	UFUNCTION()
+	void OverlapBegin(AActor* OverlappedActor, AActor* OtherActor);
+
+	UFUNCTION()
+	void OverlapEnd(AActor* OverlappedActor, AActor* OtherActor);
 
 };
