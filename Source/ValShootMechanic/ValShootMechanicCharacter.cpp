@@ -8,6 +8,7 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "TP_WeaponComponent.h"
 #include "InputActionValue.h"
 #include "Engine/LocalPlayer.h"
 
@@ -29,6 +30,10 @@ AValShootMechanicCharacter::AValShootMechanicCharacter()
 	FirstPersonCameraComponent->SetupAttachment(GetCapsuleComponent());
 	FirstPersonCameraComponent->SetRelativeLocation(FVector(-10.f, 0.f, 60.f)); // Position the camera
 	FirstPersonCameraComponent->bUsePawnControlRotation = true;
+
+	// Create a WeaponComponent
+	WeaponComponent = CreateDefaultSubobject<UTP_WeaponComponent>(TEXT("TP_Weapon"));
+	WeaponComponent->SetupAttachment(GetCapsuleComponent());
 
 	// Create a mesh component that will be used when being viewed from a '1st person' view (when controlling this pawn)
 	Mesh1P = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("CharacterMesh1P"));
@@ -53,6 +58,12 @@ void AValShootMechanicCharacter::BeginPlay()
 		{
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
+	}
+
+	// Adds weapon to player 
+	if (WeaponComponent)
+	{
+		WeaponComponent->AttachWeapon(this);
 	}
 
 }
