@@ -24,24 +24,3 @@ void AValShootMechanicTarget::BeginPlay()
 	
 }
 
-void AValShootMechanicTarget::OverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
-{
-	// Checking if it is a First Person Character is overlapping
-	AValShootMechanicCharacter* Character = Cast<AValShootMechanicCharacter>(OtherActor);
-	if (Character)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Hit Actor: %s"), Character);
-	}
-}
-
-void AValShootMechanicTarget::OverlapEnd(AActor* OverlappedActor, AActor* OtherActor)
-{
-	// Checking if it is a First Person Character overlapping
-	AValShootMechanicCharacter* Character = Cast<AValShootMechanicCharacter>(OtherActor);
-	if (Character)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Hit Actor: %s"), Character);
-	}
-}
-
-

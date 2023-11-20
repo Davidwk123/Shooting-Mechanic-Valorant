@@ -23,12 +23,4 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-private:
-	/** Code for when something overlaps this component */
-	UFUNCTION()
-	void OverlapBegin(AActor* OverlappedActor, AActor* OtherActor);
-
-	UFUNCTION()
-	void OverlapEnd(AActor* OverlappedActor, AActor* OtherActor);
-
 };
