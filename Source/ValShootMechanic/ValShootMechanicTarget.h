@@ -19,10 +19,6 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 	USkeletalMeshComponent* Mesh;
 
-	/** Trigger area for weapon drop off */
-	UPROPERTY(VisibleDefaultsOnly, Category = Trigger)
-	class USphereComponent* TriggerSphere;
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

@@ -15,16 +15,6 @@ AValShootMechanicTarget::AValShootMechanicTarget()
 	// Create Mesh component
 	Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("DummyMesh"));
 	RootComponent = Mesh;
-	//Mesh->SetupAttachment(RootComponent);
-
-	// Create TriggerSpehre component
-	TriggerSphere = CreateDefaultSubobject<USphereComponent>(TEXT("TriggerSphere"));
-	TriggerSphere->SetupAttachment(RootComponent);
-	// Set to no collision to prevent bullets from hitting the sphere instead of mesh
-	TriggerSphere->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	// Weapon drop off for the Ghost happens at 30m
-	TriggerSphere->InitSphereRadius(3000.f);
-
 }
 
 // Called when the game starts or when spawned
