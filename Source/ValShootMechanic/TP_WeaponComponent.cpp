@@ -25,23 +25,31 @@ void UTP_WeaponComponent::Fire()
 		return;
 	}
 
-	// Try and fire a projectile
-	if (ProjectileClass != nullptr)
+	// Try and fire a raycast
+	APlayerController* PlayerController = Cast<APlayerController>(Character->GetController());
+	// Get world rotation of player's camera to allow localtoworld transform for MuzzleOffset 
+	const FRotator SpawnRotation = PlayerController->PlayerCameraManager->GetCameraRotation();
+	// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
+	FVector Start = GetOwner()->GetActorLocation() + SpawnRotation.RotateVector(MuzzleOffset);
+	// Raycast range will be 50 meters(1 UU = 1 cm) so 5000 UU
+	FVector End = Start + SpawnRotation.Vector() * 5000;
+	FHitResult HitResult;
+
+	UWorld* const World = GetWorld();
+	if (World != nullptr)
 	{
-		UWorld* const World = GetWorld();
-		if (World != nullptr)
+		// Bool is returned from raycast function 
+		bool bIsActorHit = World->LineTraceSingleByChannel(HitResult, Start, End, ECC_Pawn, FCollisionQueryParams(), FCollisionResponseParams());
+		DrawDebugLine(World, Start, End, FColor::Red, false, 2.f, 0.f, 10.f);
+
+		AActor* HitActor = HitResult.GetActor();
+		if (HitActor)
 		{
-			APlayerController* PlayerController = Cast<APlayerController>(Character->GetController());
-			const FRotator SpawnRotation = PlayerController->PlayerCameraManager->GetCameraRotation();
-			// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
-			const FVector SpawnLocation = GetOwner()->GetActorLocation() + SpawnRotation.RotateVector(MuzzleOffset);
-	
-			//Set Spawn Collision Handling Override
-			FActorSpawnParameters ActorSpawnParams;
-			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
-	
-			// Spawn the projectile at the muzzle
-			World->SpawnActor<AValShootMechanicProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+			// Log the name of the hit actor
+			FString HitActorName = HitActor->GetName();
+			UE_LOG(LogTemp, Warning, TEXT("Hit Actor: %s"), *HitActorName);
+			FVector3d ActorDifference = HitActor->GetActorLocation() - Character->GetActorLocation();
+			UE_LOG(LogTemp, Warning, TEXT("Hit Actor: %f"), ActorDifference.Length());
 		}
 	}
 	
