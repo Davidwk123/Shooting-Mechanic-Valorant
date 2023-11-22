@@ -61,6 +61,16 @@ void AValShootMechanicCharacter::GetDistBetweenCharacters()
 	// Get instance of HUD
 	AValShootMechanicHUD* HUD = Cast<AValShootMechanicHUD>(UGameplayStatics::GetPlayerController(this, 0)->GetHUD());
 	HUD->GetHUDWidget()->SetCurrentDistance(Distance);
+
+	// Check if Damage drop off is applied
+	if (Distance > 30)
+	{
+		HUD->GetHUDWidget()->SetWeaponDropoff(true);
+	}
+	else 
+	{
+		HUD->GetHUDWidget()->SetWeaponDropoff(false);
+	}
 }
 
 void AValShootMechanicCharacter::BeginPlay()
