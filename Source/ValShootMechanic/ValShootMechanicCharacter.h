@@ -49,6 +49,8 @@ class AValShootMechanicCharacter : public ACharacter
 public:
 	AValShootMechanicCharacter();
 
+	void GetDistBetweenCharacters();
+
 protected:
 	virtual void BeginPlay();
 
@@ -69,6 +71,9 @@ public:
 	/** Getter for the bool */
 	UFUNCTION(BlueprintCallable, Category = Weapon)
 	bool GetHasRifle();
+
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
 
 protected:
 	/** Called for movement input */

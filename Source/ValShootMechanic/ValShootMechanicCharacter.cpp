@@ -10,7 +10,9 @@
 #include "EnhancedInputSubsystems.h"
 #include "TP_WeaponComponent.h"
 #include "InputActionValue.h"
+#include "ValShootMechanicHUD.h"
 #include "Engine/LocalPlayer.h"
+#include "Kismet/GameplayStatics.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -19,6 +21,9 @@ DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
 AValShootMechanicCharacter::AValShootMechanicCharacter()
 {
+	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	PrimaryActorTick.bCanEverTick = true;
+
 	// Character doesnt have a rifle at start
 	bHasRifle = false;
 	
@@ -43,6 +48,19 @@ AValShootMechanicCharacter::AValShootMechanicCharacter()
 	Mesh1P->CastShadow = false;
 	//Mesh1P->SetRelativeRotation(FRotator(0.9f, -19.19f, 5.2f));
 	Mesh1P->SetRelativeLocation(FVector(-30.f, 0.f, -150.f));
+}
+
+void AValShootMechanicCharacter::GetDistBetweenCharacters()
+{
+	// Where Enemey is located in world
+	FVector Enemy = FVector(1420.f, 3300.f, 0.f);
+
+	// Get the distance in meters
+	int Distance = int((Enemy - GetActorLocation()).Length())/100;
+
+	// Get instance of HUD
+	AValShootMechanicHUD* HUD = Cast<AValShootMechanicHUD>(UGameplayStatics::GetPlayerController(this, 0)->GetHUD());
+	HUD->GetHUDWidget()->SetCurrentDistance(Distance);
 }
 
 void AValShootMechanicCharacter::BeginPlay()
@@ -125,4 +143,10 @@ void AValShootMechanicCharacter::SetHasRifle(bool bNewHasRifle)
 bool AValShootMechanicCharacter::GetHasRifle()
 {
 	return bHasRifle;
+}
+
+void AValShootMechanicCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	GetDistBetweenCharacters();
 }
