@@ -57,4 +57,20 @@ protected:
 private:
 	/** The Character holding this weapon*/
 	AValShootMechanicCharacter* Character;
+
+	/** Damage dropoff check*/
+	bool bIsDamageDropoffApplied;
+	
+	/** Damage location checks*/
+	bool bIsHeadShot;
+	bool bIsBodyShot;
+	bool bIsLegShot;
+
+	// Damage is based off the Ghost stats
+	int HEAD_DAMAGE = 105;
+	int BODY_DAMAGE = 30;
+	int LEG_DAMAGE = 25;
+
+	float DAMAGE_DROPOFF_MULTIPLER = 0.833f;
+	
 };
