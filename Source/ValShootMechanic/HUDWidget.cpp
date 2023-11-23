@@ -32,7 +32,7 @@ void UHUDWidget::SetWeaponDropoff(bool bDidWeaponDropoff)
 
 void UHUDWidget::SetBodyLocationDamage(FText BodyLocation, int Damage)
 {
-	BodyLocationDamage->SetText(FText::Join(BodyLocation, FText::Format(LOCTEXT("CombinedTextKey", ": {0} Damage"), Damage)));
+	BodyLocationDamage->SetText(FText::Join(FText::FromString(TEXT(":")), BodyLocation, FText::Format(LOCTEXT("CombinedTextKey", " {0} Damage"), Damage)));
 }
 
 #undef LOCTEXT_NAMESPACE
