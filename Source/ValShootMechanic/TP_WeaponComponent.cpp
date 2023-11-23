@@ -18,6 +18,7 @@ UTP_WeaponComponent::UTP_WeaponComponent()
 	// Default offset from the character location for projectiles to spawn
 	MuzzleOffset = FVector(100.0f, 0.0f, 10.0f);
 
+	// Initialized bools
 	bIsDamageDropoffApplied = false;
 	bIsHeadShot = false;
 	bIsBodyShot = false;
@@ -66,7 +67,6 @@ void UTP_WeaponComponent::Fire()
 		// Get instance of HUD
 		AValShootMechanicHUD* HUD = Cast<AValShootMechanicHUD>(UGameplayStatics::GetPlayerController(this, 0)->GetHUD());
 		
-
 		AActor* HitActor = HitResult.GetActor();
 		// Check if user shot the other character 
 		USkeletalMeshComponent* CheckMesh = HitActor->GetComponentByClass<USkeletalMeshComponent>();
