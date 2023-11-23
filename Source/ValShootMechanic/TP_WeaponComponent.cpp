@@ -78,16 +78,6 @@ void UTP_WeaponComponent::Fire()
 			// Get bone name from character's body
 			FName BoneName = HitResult.BoneName;
 
-			// Check to see if damage dropoff can be applied 
-			if (ActorDifference.Length() > 3000.0f)
-			{
-				bIsDamageDropoffApplied = true;
-			}
-			else
-			{
-				bIsDamageDropoffApplied = false;
-			}
-
 			// Get location of shot, the 3rd party mesh has a different naming for each part of the body
 			// Head shot
 			if (BoneName == "Neck")
@@ -110,41 +100,24 @@ void UTP_WeaponComponent::Fire()
 				bIsBodyShot = false;
 				bIsLegShot = true;
 			}
+		
+			// Check to see if damage dropoff can be applied 
+			bIsDamageDropoffApplied = (ActorDifference.Length() > 3000.0f);
 
-			// Apply damage dropoff to differnt shots 
-			if (bIsDamageDropoffApplied)
+			// Change damage if dropoff is applied
+			float AppliedDamage = (bIsDamageDropoffApplied) ? DAMAGE_DROPOFF_MULTIPLER : 1.0f;
+			if (bIsHeadShot)
 			{
-				if (bIsHeadShot)
-				{
-					HUD->GetHUDWidget()->SetBodyLocationDamage(FText::FromString(TEXT("Head Shot")), HEAD_DAMAGE * DAMAGE_DROPOFF_MULTIPLER);
-				}
-				else if (bIsBodyShot)
-				{
-					HUD->GetHUDWidget()->SetBodyLocationDamage(FText::FromString(TEXT("Body Shot")), BODY_DAMAGE * DAMAGE_DROPOFF_MULTIPLER);
-				}
-				else if (bIsLegShot)
-				{
-					HUD->GetHUDWidget()->SetBodyLocationDamage(FText::FromString(TEXT("Leg Shot")), LEG_DAMAGE * DAMAGE_DROPOFF_MULTIPLER);
-
-				}
+				HUD->GetHUDWidget()->SetBodyLocationDamage(FText::FromString(TEXT("Head Shot")), HEAD_DAMAGE * AppliedDamage);
 			}
-			else
+			else if (bIsBodyShot)
 			{
-				if (bIsHeadShot)
-				{
-					HUD->GetHUDWidget()->SetBodyLocationDamage(FText::FromString(TEXT("Head Shot")), HEAD_DAMAGE);
-				}
-				else if (bIsBodyShot)
-				{
-					HUD->GetHUDWidget()->SetBodyLocationDamage(FText::FromString(TEXT("Body Shot")), BODY_DAMAGE);
-				}
-				else if (bIsLegShot)
-				{
-					HUD->GetHUDWidget()->SetBodyLocationDamage(FText::FromString(TEXT("Leg Shot")), LEG_DAMAGE);
-
-				}
+				HUD->GetHUDWidget()->SetBodyLocationDamage(FText::FromString(TEXT("Body Shot")), BODY_DAMAGE * AppliedDamage);
 			}
-			
+			else if (bIsLegShot)
+			{
+				HUD->GetHUDWidget()->SetBodyLocationDamage(FText::FromString(TEXT("Leg Shot")), LEG_DAMAGE * AppliedDamage);
+			}
 		}
 		else
 		{
