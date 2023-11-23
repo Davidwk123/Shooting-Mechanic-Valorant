@@ -3,7 +3,6 @@
 
 #include "TP_WeaponComponent.h"
 #include "ValShootMechanicCharacter.h"
-#include "ValShootMechanicProjectile.h"
 #include "GameFramework/PlayerController.h"
 #include "Camera/PlayerCameraManager.h"
 #include "Kismet/GameplayStatics.h"
@@ -15,9 +14,6 @@
 // Sets default values for this component's properties
 UTP_WeaponComponent::UTP_WeaponComponent()
 {
-	// Default offset from the character location for projectiles to spawn
-	MuzzleOffset = FVector(100.0f, 0.0f, 10.0f);
-
 	// Initialized bools
 	bIsDamageDropoffApplied = false;
 	bIsHeadShot = false;
@@ -62,6 +58,7 @@ void UTP_WeaponComponent::Fire()
 
 		// Bool is returned from raycast function 
 		bool bIsActorHit = World->LineTraceSingleByChannel(HitResult, Start, End, ECC_Pawn, RayQuery, FCollisionResponseParams());
+		// Debug line used to show the raycast path
 		DrawDebugLine(World, Start, End, FColor::Red, false, 2.f, 0.f, 0.f);
 
 		// Get instance of HUD
@@ -123,7 +120,6 @@ void UTP_WeaponComponent::Fire()
 		{
 			HUD->GetHUDWidget()->SetBodyLocationDamage(FText::FromString(TEXT("Missed Shot")), 0);
 		}
-
 	}
 	
 	// Try and play the sound if specified
