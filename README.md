@@ -1,4 +1,5 @@
 # Shooting-Mechanic-Valorant
+<img src="https://github.com/Davidwk123/Shooting-Mechanic-Valorant/assets/74224822/1edf42ab-579b-490f-99b7-d8a8e01aa7e6" alt="ValShootingMechanicG">
 
 Part of the shooting mechanic in Valorant Developed with Unreal Engine 5.
 
